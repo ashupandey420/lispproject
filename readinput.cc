@@ -3,6 +3,7 @@
 #include <string>
 #include <stack>
 #include <algorithm>
+#include <list>
 //#include<stdint.h>
 using namespace std;
 #define INT64 int64_t
@@ -13,12 +14,16 @@ public:
 	string name;
 	SExp* left;
 	SExp* right;
+	static std::list <SExp*> idPointers;
 	SExp(){left=NULL;right=NULL;}
-	SExp(INT64 v):type(1),value(v){}
-	SExp(string n):type(2),name(n){}
+	SExp(INT64 v):type(1),value(v),left(NULL),right(NULL){idPointers.push_front(this);}
+	SExp(string n):type(2),name(n),left(NULL),right(NULL){idPointers.push_front(this);}
 	SExp(SExp* l, SExp* r):type(3),left(l),right(r){}
 	void show();
+	void showIdList();
 };
+
+std::list <SExp*> SExp::idPointers;
 
 void printSExp(SExp* s);
 SExp T("T");
@@ -35,23 +40,24 @@ SExp* CONS(SExp* l,SExp* r);
 void SExp::show(){
 	printSExp(this);
 }
+
+void SExp::showIdList(){
+	std::list<SExp*>::iterator it;
+	for(it=idPointers.begin();it!=idPointers.end();++it){
+		printSExp(*it);
+	}
+}
 class stackNode{
 public:
 	int type;
 	char token;
-	string id;
-	int value;
 	SExp* s;
 	stackNode(){}
-	stackNode(char b):type(1),token(b){}
-	stackNode(string b):type(3),id(b){}
-	stackNode(int b):type(2),value(b){}
-	stackNode(SExp* b):type(4),s(b){}
+	stackNode(char b):type(1),token(b),s(NULL){}
+	stackNode(SExp* b):type(2),s(b){}
 	stackNode(const stackNode& a){
 		type=a.type;
 		token=a.token;
-		id=a.id;
-		value=a.value;
 		s=new SExp;
 		*s=*(a.s);
 	}
@@ -59,9 +65,6 @@ public:
 		if(this!=&a){
 			type=a.type;
 			token=a.token;
-			id=a.id;
-			value=a.value;
-			s=new SExp;
 			*s=*(a.s);
 		}
 		return *this;
@@ -69,18 +72,17 @@ public:
 	}
 	void show(){
 		if(type==1){cout<<token<<'\n';}
-		else if(type==2){cout<<value<<"\n";}
-		else if(type==3){cout<<id<<"\n";}
 		else {printSExp(s);}
 	}
 
 };
+std::pair<bool,SExp*> doesExist(string tempStr);
 void parseInput(string input);
 bool isvalidID(string a);
 bool BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 inline bool isInteger(const std::string & s);
 int main(){
-	
+
 	stack<stackNode*> myStack;
 	string line;
 	string input;
@@ -128,6 +130,7 @@ void parseInput(string input){
 		if(it==input.end()){break;}
 		else if(*it==' '){++it;}
 		else if(*it=='(' || *it=='.'){
+			cout<<"jai na ho"<<"\n";
 			stackNode* tempNode= new stackNode(*it);
 			myStack.push(tempNode);
 			++it;
@@ -140,7 +143,7 @@ void parseInput(string input){
 				tempStr+=*it;
 				++it;
 			}
-			if(*it!='('&&*it!=')' && *it!='.' && *it!=' '){
+			if(*it!='('&& *it!=')' && *it!='.' && *it!=' '){
 				cout<<"error: illegal character "<<*it<<" in string.\n";
 				exit(1);
 			}
@@ -153,19 +156,42 @@ void parseInput(string input){
 				cout<<tempStr<<"  is  integer";
 				tempInt=std::stoi(tempStr);
 				cout<<tempInt<<"\n";
-				stackNode* tempNode= new stackNode(tempInt);
+				SExp* s =new SExp(tempInt);
+				stackNode* tempNode= new stackNode(s);
 				myStack.push(tempNode);
 			}
 			else{
 				cout<<tempStr<<"  is  not integer";
-				stackNode* tempNode = new stackNode(tempStr);
-				myStack.push(tempNode);
+				std::pair<bool,SExp*> p;
+				p=doesExist(tempStr              );
+				if(!p.first){
+					SExp* s =new SExp(tempStr);
+					stackNode* tempNode = new stackNode(s);
+					myStack.push(tempNode);
+				}
+				else{
+					stackNode* tempNode = new stackNode(p.second);
+					myStack.push(tempNode);
+				}
+				
+				
 			}
 			
 			
 		}
 		
-
+		/*else if(*it==')'){
+			while(!myStack.empty()){
+				cout<<"shivam"<<"\n";
+				myStack.top()->show();
+				myStack.pop();
+			}
+			std::list<SExp*>::iterator it;
+			for(it=SExp::idPointers.begin();it!=SExp::idPointers.end();++it){
+				(*it)->show();
+			}
+			exit(1);
+		}*/
 
 		else if(*it==')'){
 			if(myStack.empty()){
@@ -177,23 +203,65 @@ void parseInput(string input){
 
 			stackNode* s1=myStack.top();
 
-			myStack.top()->show();
+			s1->show();
 			
 			if(s1->type==1){
 				
 				if(s1->token=='('){
+					cout<<"jai ho"<<"\n";
 					myStack.pop();
-					stackNode* temp= new stackNode(&NIL);
-					myStack.push(temp);
+					myStack.top()->show();
+					stackNode* tempNode= new stackNode (&NIL);
+					myStack.push(tempNode);
+
 				}
 				else{
 					cout<<"error: Invalid Sexpression\n";
 					exit(1);
 				}
 			}
-
 			else if(s1->type==2){
 				myStack.pop();
+				stackNode *s2=myStack.top();
+				if(s2->type==1 and s2->token==')'){
+					cout<<"error: Invalid Sexpression";
+					exit(1);
+				}
+				else if(s2->type==1 and s2->token=='('){
+					myStack.pop();
+					myStack.top()->show();
+					SExp* temp=new SExp(s1->s,&NIL);
+					stackNode* t=new stackNode(temp);
+					myStack.push(t);
+				}
+				else if(s2->type==1 and s2->token=='.'){
+					myStack.pop();
+					stackNode* s3=myStack.top();
+					if(myStack.top()->type==1){
+						cout<<"error: Invalid Sexpression\n";
+						exit(1);
+					}
+					else{
+						myStack.pop();
+						if(!(myStack.top()->type==1 and myStack.top()->token=='(')){
+							cout<<"error: Invalid Sexpression\n";
+							exit(1);
+						}
+						else{
+							myStack.top()->show();
+							SExp* temp=new SExp(s3->s,s1->s);
+							stackNode* t=new stackNode(temp);
+							myStack.push(t);
+						}
+					}
+				}
+				
+			++it;
+		}
+	}
+	myStack.top()->show();
+}			/*else if(s1->type==2){
+	}			myStack.pop();
 				cout<<"bhako";
 				myStack.top()->show();
 				if(myStack.empty()){
@@ -237,21 +305,20 @@ void parseInput(string input){
 				}
 
 
-			}
+			}*/
 			
-			++it;
 			
-		}
+			
+		
 
-
-	}
-	while(!myStack.empty()){
+	
+	/*while(!myStack.empty()){
 		cout<<"shivam"<<"\n";
 			myStack.top()->show();
 			myStack.pop();
 		}
-		exit(1);
-}
+		exit(1);*/
+
 
 	
 		
@@ -518,5 +585,20 @@ bool isvalidID(string a){
 		}
 		return true;
 	}
+}
+
+std::pair<bool,SExp*> doesExist(string tempStr){
+	std::list<SExp*>::iterator it;
+	std::pair<bool,SExp*> p;
+	for(it=SExp::idPointers.begin();it!=SExp::idPointers.end();++it){
+		if((*it)->type==2 and (*it)->name==tempStr){
+			p.first=true;
+			p.second=*it;
+			return p;
+		}
+	}
+	p.first=false;
+	p.second=NULL;
+	return p;
 }
 
