@@ -28,15 +28,25 @@ std::string error="Error: Invalid SExpression\n\n\n\n";
 void printSExp(SExp* s);
 SExp T("T");
 SExp NIL("NIL");
-SExp* ATOM(SExp* s);
 
-SExp* CAR(SExp* s);
 
-SExp* EQ(SExp* s);
+SExp CAR("CAR");
+SExp CDR("CDR");
+SExp EQ("EQ");
+SExp NULL1("NULL");
+SExp ATOM("ATOM");
+SExp COND("COND");
+SExp DEFUN("DEFUN");
+SExp CONS("CONS");
+SExp QUOTE("QUOTE");
+SExp* atom(SExp* s);
+SExp* car(SExp* s);
 
-SExp* CDR(SExp* s);
+SExp* eq(SExp* s);
 
-SExp* CONS(SExp* l,SExp* r);
+SExp* cdr(SExp* s);
+
+SExp* cons(SExp* l,SExp* r);
 void SExp::show(){
 	printSExp(this);
 }
@@ -82,7 +92,7 @@ bool isvalidID(string a);
 bool BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 inline bool isInteger(const std::string & s);
 int main(){
-
+	QUOTE.showIdList();
 	stack<stackNode*> myStack;
 	string line;
 	string input;
@@ -310,7 +320,7 @@ inline bool isInteger(const std::string & s)
 
    return (*p == 0) ;
 }
-SExp* ATOM(SExp* s){
+SExp* atom(SExp* s){
 	if(s->type==1 or s->type==2){
 		return &T;
 	}
@@ -319,8 +329,8 @@ SExp* ATOM(SExp* s){
 	}
 }
 
-SExp* EQ(SExp* s1,SExp* s2){
-	if(ATOM(s1)==&T && ATOM(s2)==&T){
+SExp* eq(SExp* s1,SExp* s2){
+	if(atom(s1)==&T && atom(s2)==&T){
 		if(s1->type==1 && s2->type==1){
 			if(s1->value==s2->value){
 				return &T;
@@ -344,8 +354,8 @@ SExp* EQ(SExp* s1,SExp* s2){
 	}
 }
 
-SExp* CAR(SExp* s){
-	if(ATOM(s)==&T){
+SExp* car(SExp* s){
+	if(atom(s)==&T){
 		cout<<"error CAR expects non atomic arguments";
 		exit(1);
 	}
@@ -354,8 +364,8 @@ SExp* CAR(SExp* s){
 	}
 }
 
-SExp* CDR(SExp* s){
-	if(ATOM(s)==&T){
+SExp* cdr(SExp* s){
+	if(atom(s)==&T){
 		cout<<"error CDR expects non atomic arguments";
 		exit(1);
 	}
@@ -363,7 +373,7 @@ SExp* CDR(SExp* s){
 		return s->right;
 	}
 }
-SExp* CONS(SExp* l,SExp* r){
+SExp* cons(SExp* l,SExp* r){
 	SExp *s=new SExp[1];
 	s->left=l;
 	s->right=r;
@@ -372,7 +382,7 @@ SExp* CONS(SExp* l,SExp* r){
 }
 
 void printSExp(SExp* s){
-	if(ATOM(s)==&T){
+	if(atom(s)==&T){
 		if(s->type==1){
 			cout<<s->value;
 		}
