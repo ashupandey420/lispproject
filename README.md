@@ -3,11 +3,11 @@
   * globalFunc.cc
   * SExp.cc
   * stackNode.cc
- * main.cc
- * lispFunctions.cc
+  * main.cc
+  * lispFunctions.cc
 * 1 Makefile to compile each source file separately or together.  
- * on terminal type make  
- \> make
+  * on terminal type make  
+  > \> make
  * It will compile all source files and link them together to create a final executable file main.
 
 * If you want to compile source files separately then type make sourcefilename.o  
