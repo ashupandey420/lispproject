@@ -20,6 +20,7 @@
   * >  \> make clean
 
 * Use the executable main file to test this code. For example, if testcases are in file input.txt then
-  * > \>./main <input.txt  
+  * > \>./main <input.txt
+  
   or  
   * > \>cat input.txt | ./main
