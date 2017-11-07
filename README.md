@@ -5,7 +5,6 @@
  * stackNode.cc
  * main.cc
  * lispFunctions.cc
-
 * 1 Makefile to compile each source file separately or together.  
  * on terminal type make  
  \> make
