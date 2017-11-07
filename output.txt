@@ -1,0 +1,64 @@
+(ASHUTOSH . (PANDEY . NIL))
+(ASHUTOSH . PANDEY)
+(ASHUTOSH . (PANDEY . NIL))
+(ASHUTOSH . (SHIVAM . (NEHA . (ARPITA . (KUTTU . NIL)))))
+(XYZ . (129 . (345 . NIL)))
+(ABCDEF . (GHIJKL . (MNOP . (QRSTUV . (WXYZ . (123456 . (7890 . NIL)))))))
+Error: Illegal character + in string.
+Error: Illegal character - in string.
+Error: Illegal character - in string.
+Error: Illegal character - in string.
+(12345 . (6789 . (1011 . NIL)))
+(-12345 . (-6789 . (12345 . NIL)))
+Error: Illegal character $ in string.
+Error: Illegal character a in string.
+Error: Illegal character $ in string.
+Error: Illegal character $ in string.
+Error: Illegal character @ in string.
+Error: Illegal character # in string.
+Error: Illegal character ^ in string.
+Error: Illegal character & in string.
+Error: Invalid SExpression
+Error: Invalid SExpression
+Error: Illegal character * in string.
+Error: Illegal character / in string.
+Error: Illegal character < in string.
+Error: Illegal character < in string.
+Error: Illegal identifeir - in string.
+Error: Illegal character ; in string.
+Error: Illegal character ; in string.
+Error: Illegal character : in string.
+Error: Illegal character [ in string.
+Error: Illegal character [ in string.
+((DEFPARAMETER . (SMALL . (1 . NIL))) . ((DEFPARAMETER . (BIG . (100 . NIL))) . ((DEFUN . (GUESSMYNUMBER . (NIL . ((ASH . ((SMALL . (BIG . NIL)) . (-1 . NIL))) . NIL)))) . ((DEFUN . (SMALLER . (NIL . ((SETF . (BIG . ((1 . ((GUESSMYNUMBER . NIL) . NIL)) . NIL))) . ((GUESSMYNUMBER . NIL) . NIL))))) . ((DEFUN . (BIGGER . (NIL . ((SETF . (SMALL . ((1 . ((GUESSMYNUMBER . NIL) . NIL)) . NIL))) . ((GUESSMYNUMBER . NIL) . NIL))))) . ((DEFUN . (STARTOVER . (NIL . ((DEFPARAMETER . (SMALL . (1 . NIL))) . ((DEFPARAMETER . (BIG . (100 . NIL))) . ((GUESSMYNUMBER . NIL) . NIL)))))) . NIL))))))
+(12345 . (AB . (-12345 . NIL)))
+((2 . 5) . (NIL . ((ASHUTOSH . (PANDEY . NIL)) . ((1 . (2 . (3 . (4 . (5 . (1 . NIL)))))) . NIL))))
+(NIL . NIL)
+Error: Invalid SExpression
+Error: Invalid SExpression
+Error: Invalid SExpression
+Error: Invalid SExpression
+Error: Invalid SExpression
+(((((((((NIL . NIL) . NIL) . NIL) . NIL) . NIL) . NIL) . NIL) . NIL) . NIL)
+Error: Invalid SExpression
+Error: Invalid SExpression
+(2 . NIL)
+((3 . NIL) . NIL)
+NIL
+(NIL . (NIL . (NIL . (NIL . (NIL . NIL)))))
+(2 . (3 . (4 . NIL)))
+Error: Invalid SExpression
+(2 . ((3 . (4 . NIL)) . 5))
+Error: Illegal character $ in string.
+(2 . ((3 . 4) . ((5 . 6) . NIL)))
+(CAR . ((QUOTE . ((A . B) . NIL)) . NIL))
+(CONS . (4 . ((QUOTE . ((A . B) . NIL)) . NIL)))
+(CONS . (4 . ((A . B) . NIL)))
+(DEFUN . (SILLY . ((A . (B . NIL)) . ((PLUS . (A . (B . NIL))) . NIL))))
+(SILLY . (5 . (6 . NIL)))
+(SILLY . ((CAR . ((QUOTE . ((5 . 6) . NIL)) . NIL)) . ((CDR . ((QUOTE . ((5 . 6) . NIL)) . NIL)) . NIL)))
+(DEFUN . (MINUS2 . ((A . (B . NIL)) . ((MINUS . (A . (B . NIL))) . NIL))))
+(DEFUN . (NOTSOSILLY . ((A . (B . NIL)) . ((COND . (((EQ . (A . (0 . NIL))) . ((PLUS . (B . (1 . NIL))) . NIL)) . (((EQ . (B . (0 . NIL))) . ((NOTSOSILLY . ((MINUS2 . (A . (1 . NIL))) . (1 . NIL))) . NIL)) . ((T . ((NOTSOSILLY . ((MINUS2 . (A . (1 . NIL))) . ((NOTSOSILLY . (A . ((MINUS2 . (B . (1 . NIL))) . NIL))) . NIL))) . NIL)) . NIL)))) . NIL))))
+(NOTSOSILLY . (0 . (0 . NIL)))
+(ASHUTOSH . (PANDEY . NIL))
+Error: Invalid SExpression

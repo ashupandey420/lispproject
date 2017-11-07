@@ -10,7 +10,7 @@ using namespace std;
 class SExp{
 public:
 	int type;
-	INT64 value;
+	INT64  value;
 	string name;
 	SExp* left;
 	SExp* right;
@@ -92,10 +92,9 @@ bool isvalidID(string a);
 bool BothAreSpaces(char lhs, char rhs) { return (lhs == rhs) && (lhs == ' '); }
 inline bool isInteger(const std::string & s);
 int main(){
-	QUOTE.showIdList();
 	stack<stackNode*> myStack;
-	string line;
-	string input;
+	string line="";
+	string input="";
 	
 	//myStack.push(&n1);
 
@@ -104,13 +103,15 @@ int main(){
 	{
 	    
 	    if((line == "$") || (line=="$$")){
-	    	//cout<<input<<"\n\n\n";
 	    	
 	    	
 			string::iterator new_end = unique(input.begin(), input.end(), BothAreSpaces);
 			input.erase(new_end, input.end()); 
 	    	input.erase(remove(input.begin(), input.end(), '\n'),input.end());
 			input.erase(remove(input.begin(), input.end(), '\t'),input.end());
+			if(input==""){
+				continue;
+			}
 	    	parseInput(input);
 	    	
 	    	if (line == "$$"){
@@ -131,7 +132,7 @@ void parseInput(string input){
 	
 	string tempStr;
 	//stackNode tempNode;
-	int tempInt;
+	INT64 tempInt;
 	std::string::iterator it=input.begin();
 	while(1){
 		if(it==input.end()){break;}
@@ -145,7 +146,12 @@ void parseInput(string input){
 		}
 		else if(*it!='(' && *it!=')'&& *it!='.'){
 			tempStr="";
-
+			if(*it=='+' || *it=='-'){
+				tempStr+=*it;
+				++it;
+			}
+				
+			
 			while((*it>=48 && *it<=57)||(*it>=65 && *it<=90)){
 				tempStr+=*it;
 				++it;
@@ -159,7 +165,7 @@ void parseInput(string input){
 				return;
 			}
 			if(isInteger(tempStr)){
-				tempInt=std::stoi(tempStr);
+				tempInt=std::stoll(tempStr,NULL,10);
 				SExp* s =new SExp(tempInt);
 				stackNode* tempNode= new stackNode(s);
 				myStack.push(tempNode);
@@ -405,9 +411,24 @@ bool isvalidID(string a){
 	}
 	else{
 		std::string::iterator it;
-		for(it=a.begin();it!=a.end();++it){
-			if(!(*it>=48 && *it<=57)){
-				return false;
+		it=a.begin();
+		if(*it=='+' || *it=='-'){
+			it=it+1;
+			if(it==a.end()){return false;}
+			else{
+				for(it=a.begin()+1;it!=a.end();++it){
+					if(!(*it>=48 && *it<=57)){
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		else{
+			for(it=a.begin();it!=a.end();++it){
+				if(!(*it>=48 && *it<=57)){
+					return false;
+				}
 			}
 		}
 		return true;

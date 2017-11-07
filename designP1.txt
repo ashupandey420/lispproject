@@ -1,0 +1,27 @@
+###################################
+###################################
+###################################
+###################################
+###################################
+LISP INTERPRETER PROJECT PART 2
+
+Name: Ashutosh Pandey
+
+pandey.99@osu.edu
+
+####################################
+
+
+OBJECTIVE: Implement a LISP interpreter.
+
+APPROACH: I used the idea discussed in the lecture. This means that I converted the definition of LISP interpreter from LISP design notation to C++. 
+
+WHAT IS DIFFERENT IN MY DESIGN? 
+
+I did not use function definition list. Instead, I usead an SExpression class which stores a variable named 'isFun'. This variables stores the   		information if the given SExpression is a function name or not. There is one more variable named funDef which stores the body of function and parameter names in the same format as these are stored in definition list. 
+
+REFERENCES:
+1. Piazza discussion group
+2. http://web.cse.ohio-state.edu/~soundarajan.1/courses/6341/SLIDES/p2.ppt
+3. http://www.cplusplus.com/
+4. http://stackoverflow.com/
