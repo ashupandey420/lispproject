@@ -1,8 +1,8 @@
 # lispproject
 * There are 5 source files:
- * globalFunc.cc
- * SExp.cc
- * stackNode.cc
+  * globalFunc.cc
+  * SExp.cc
+  * stackNode.cc
  * main.cc
  * lispFunctions.cc
 * 1 Makefile to compile each source file separately or together.  
